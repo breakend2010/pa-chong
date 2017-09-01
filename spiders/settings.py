@@ -9,12 +9,15 @@
 #     http://scrapy.readthedocs.org/en/latest/topics/downloader-middleware.html
 #     http://scrapy.readthedocs.org/en/latest/topics/spider-middleware.html
 
-BOT_NAME = 'spiders'
+BOT_NAME = 'Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 5.1)'
 
 SPIDER_MODULES = ['spiders.spiders']
 NEWSPIDER_MODULE = 'spiders.spiders'
 
+DEFAULT_REQUEST_HEADERS = {
+    'Referer': 'http://www.google.com'
 
+}
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 #USER_AGENT = 'spiders (+http://www.yourdomain.com)'
 
@@ -88,4 +91,4 @@ ITEM_PIPELINES = {
 #HTTPCACHE_DIR = 'httpcache'
 #HTTPCACHE_IGNORE_HTTP_CODES = []
 #HTTPCACHE_STORAGE = 'scrapy.extensions.httpcache.FilesystemCacheStorage'
-#LOG_LEVEL = 'CRITICAL'
+LOG_LEVEL = 'DEBUG'
