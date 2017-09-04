@@ -8,7 +8,11 @@ class BjanjukeSpider(scrapy.Spider):
     start_urls = (
         'http://beijing.anjuke.com/sale/index.html',
     )
-
+    custom_settings = {
+        'ITEM_PIPELINES': {
+            'spiders.pipelines.SpidersPipeline': 400
+        }
+    }
     def parse(self, response):
         houseList = response.selector.xpath('//div[contains(@class, "house-title")]/a/@href').extract()
         for houseUrl in houseList:
