@@ -24,3 +24,16 @@ class AnjukeSpidersItem(scrapy.Item):
     block = scrapy.Field()
     link = scrapy.Field()
     created_at = scrapy.Field()
+
+class IssfDataSpidersItem(scrapy.Item):
+    project_name = scrapy.Field()
+    match_type = scrapy.Field()
+    athlete_name = scrapy.Field()
+    athlete_nation = scrapy.Field()
+    athlete_handedness = scrapy.Field()
+    athlete_mastereye = scrapy.Field()
+    series = scrapy.Field()
+    start_time = scrapy.Field()
+    num = scrapy.Field()
+    score = scrapy.Field()
+    link = scrapy.Field()
