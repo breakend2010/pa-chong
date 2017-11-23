@@ -70,7 +70,7 @@ ROBOTSTXT_OBEY = False
 ITEM_PIPELINES = {
     'spiders.pipelines.SpidersPipeline': 300,
 }
-
+FILES_STORE = '/home/zhoub/suooter/asia-shooting'
 # Enable and configure the AutoThrottle extension (disabled by default)
 # See http://doc.scrapy.org/en/latest/topics/autothrottle.html
 #AUTOTHROTTLE_ENABLED = True
