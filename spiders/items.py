@@ -25,6 +25,7 @@ class AnjukeSpidersItem(scrapy.Item):
     link = scrapy.Field()
     created_at = scrapy.Field()
 
+
 class IssfDataSpidersItem(scrapy.Item):
     project_name = scrapy.Field()
     match_type = scrapy.Field()

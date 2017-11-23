@@ -6,15 +6,16 @@
 # See: http://doc.scrapy.org/en/latest/topics/item-pipeline.html
 # import mysql.connector as MySQLdb
 import json
-from scrapy.pipelines.images import ImagesPipeline
 from scrapy.pipelines.files import FilesPipeline
 import scrapy
-from scrapy.exceptions import DropItem
+
 
 class SpidersPipeline(object):
     pass
     # def __init__(self):
-    #     self.conn = MySQLdb.connect(host='192.168.2.224', user='pa_chong', password='po1fn9U0NxOVVYgN', database='pa_chong', charset="utf8", use_unicode=True)
+    #     self.conn = MySQLdb.connect(host='192.168.2.224',
+    #           user='pa_chong', password='po1fn9U0NxOVVYgN',
+    #           database='pa_chong', charset="utf8", use_unicode=True)
     #     self.cursor = self.conn.cursor()
 
     # def process_item(self, item, spider):
@@ -22,8 +23,10 @@ class SpidersPipeline(object):
     #         self.cursor.execute("""INSERT INTO anjuke (
     #                             title, arc,
     #                             composition, price, floor, location, year,
-    #                             head_to, decoration, district, block,address, created_at, link)
-    #                     VALUES (%s, %s,%s, %s,%s, %s,%s, %s,%s, %s,%s, %s, %s, %s)""",
+    #                             head_to, decoration, district, block,address,
+    #                             created_at, link) VALUES
+    #                     (%s, %s,%s, %s,%s, %s,%s, %s,%s, %s,%s, %s, %s, %s)
+    #                        """,
     #                    (item['title'],
     #                     item['arc'] ,
     #                     item['composition'],
@@ -43,6 +46,7 @@ class SpidersPipeline(object):
     #         print("Something went wrong: {}".format(e))
     #     return item
 
+
 class JsonWriterPipeline(object):
 
     def open_spider(self, spider):
@@ -59,15 +63,18 @@ class JsonWriterPipeline(object):
 
 class AsiaShootingPipeline(FilesPipeline):
     def get_media_requests(self, item, info):
-        return [scrapy.Request(x, meta=item) for x in item.get(self.files_urls_field, [])]
+        return [
+            scrapy.Request(x, meta=item)
+            for x in item.get(self.files_urls_field, [])
+        ]
 
     def file_path(self, request, response=None, info=None):
         # start of deprecation warning block (can be removed in the future)
         def _warn():
             from scrapy.exceptions import ScrapyDeprecationWarning
             import warnings
-            warnings.warn('FilesPipeline.file_key(url) method is deprecated, please use '
-                          'file_path(request, response=None, info=None) instead',
+            warnings.warn('file_key(url) method is deprecated, use '
+                          'file_path(request, response=None, info=None)',
                           category=ScrapyDeprecationWarning, stacklevel=1)
 
         # check if called from file_key with url as first argument
@@ -83,5 +90,6 @@ class AsiaShootingPipeline(FilesPipeline):
             return self.file_key(url)
         # end of deprecation warning block
         file_name = request.meta['title']
-        media_ext = url.split('/')[-1]  # change to request.url after deprecation
+        # change to request.url after deprecation
+        media_ext = url.split('/')[-1]
         return '%s' % file_name + media_ext.replace(' ', '_')
