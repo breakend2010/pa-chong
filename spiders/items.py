@@ -37,3 +37,10 @@ class IssfDataSpidersItem(scrapy.Item):
     num = scrapy.Field()
     score = scrapy.Field()
     link = scrapy.Field()
+
+
+class AsiaShootingItem(scrapy.Item):
+
+    file_urls = scrapy.Field()
+    title = scrapy.Field()
+    files = scrapy.Field()
