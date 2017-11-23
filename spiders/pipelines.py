@@ -6,6 +6,11 @@
 # See: http://doc.scrapy.org/en/latest/topics/item-pipeline.html
 # import mysql.connector as MySQLdb
 import json
+from scrapy.pipelines.images import ImagesPipeline
+from scrapy.pipelines.files import FilesPipeline
+import scrapy
+from scrapy.exceptions import DropItem
+
 class SpidersPipeline(object):
     pass
     # def __init__(self):
@@ -50,3 +55,33 @@ class JsonWriterPipeline(object):
         line = json.dumps(dict(item)) + "\n"
         self.file.write(line)
         return item
+
+
+class AsiaShootingPipeline(FilesPipeline):
+    def get_media_requests(self, item, info):
+        return [scrapy.Request(x, meta=item) for x in item.get(self.files_urls_field, [])]
+
+    def file_path(self, request, response=None, info=None):
+        # start of deprecation warning block (can be removed in the future)
+        def _warn():
+            from scrapy.exceptions import ScrapyDeprecationWarning
+            import warnings
+            warnings.warn('FilesPipeline.file_key(url) method is deprecated, please use '
+                          'file_path(request, response=None, info=None) instead',
+                          category=ScrapyDeprecationWarning, stacklevel=1)
+
+        # check if called from file_key with url as first argument
+        if not isinstance(request, scrapy.Request):
+            _warn()
+            url = request
+        else:
+            url = request.url
+
+        # detect if file_key() method has been overridden
+        if not hasattr(self.file_key, '_base'):
+            _warn()
+            return self.file_key(url)
+        # end of deprecation warning block
+        file_name = request.meta['title']
+        media_ext = url.split('/')[-1]  # change to request.url after deprecation
+        return '%s' % file_name + media_ext.replace(' ', '_')
