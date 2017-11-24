@@ -23,16 +23,17 @@ class AsiaShootingSpider(scrapy.Spider):
             title = "".join(table.xpath(
                 "./tbody/tr/td[2]/text()").extract_first().split())
             urls = []
-            slectors = table.xpath("./tbody/tr/td[3]/a/@href").extract()
-            for selector in slectors:
-                if not selector.startswith("http://www.issf-sports.org/"):
-                    urls.append('http://www.asia-shooting.org' + selector)
+            file_paths = table.xpath("./tbody/tr/td[3]/a/@href").extract()
+            for file_path in file_paths:
+                if not file_path.startswith("http"):
+                    self.logger.info(file_path)
+                    urls.append('http://www.asia-shooting.org' + file_path)
 
-            other_selectors = table.xpath(
+            other_file_paths = table.xpath(
                 './tbody/tr/td/div/a/@href').extract()
-            for selector in other_selectors:
-                urls.append('http://www.asia-shooting.org' + selector)
-
+            for file_path in other_file_paths:
+                urls.append('http://www.asia-shooting.org' + file_path)
+            self.logger.info('####' * 8)
             item = AsiaShootingItem()
             item["file_urls"] = urls
             item['title'] = title.replace('/', '-')
