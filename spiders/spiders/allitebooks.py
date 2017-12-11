@@ -7,13 +7,13 @@ class AllitebooksSpider(scrapy.Spider):
     name = "allitebooks"
     allowed_domains = ["www.allitebooks.com"]
     start_urls = [
-        'http://www.allitebooks.com/page/{}/'.format(i) for i in range(1, 2)]
+        'http://www.allitebooks.com/page/{}/'.format(i) for i in range(1, 742)]
 
     custom_settings = {
         'ITEM_PIPELINES': {
             'spiders.pipelines.AllitebooksPipeline': 1
         },
-        'FILES_STORE': '/home/zhoub/suooter/allitebooks'
+        'FILES_STORE': '/home/zhoub/python/allitebooks'
     }
 
     def parse(self, response):
@@ -27,7 +27,8 @@ class AllitebooksSpider(scrapy.Spider):
     def parse_detail(self, response):
 
         book_file = response.xpath(
-            '//*[@id="main-content"]/div/article/footer/div/span[1]/a/@href').extract_first()
+            '//*[@id="main-content"]/div/article/footer/div/span[1]/a/@href') \
+            .extract_first()
         self.logger.info(book_file.split('/')[-1])
         item = AllitebooksItem()
         item["file_urls"] = [book_file]
