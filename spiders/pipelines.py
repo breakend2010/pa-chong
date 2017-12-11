@@ -93,3 +93,37 @@ class AsiaShootingPipeline(FilesPipeline):
         # change to request.url after deprecation
         media_ext = url.split('/')[-1]
         return '%s' % file_name + media_ext.replace(' ', '_')
+
+
+class AllitebooksPipeline(FilesPipeline):
+    def get_media_requests(self, item, info):
+        return [
+            scrapy.Request(x, meta=item)
+            for x in item.get(self.files_urls_field, [])
+        ]
+
+    def file_path(self, request, response=None, info=None):
+        # start of deprecation warning block (can be removed in the future)
+        def _warn():
+            from scrapy.exceptions import ScrapyDeprecationWarning
+            import warnings
+            warnings.warn('file_key(url) method is deprecated, use '
+                          'file_path(request, response=None, info=None)',
+                          category=ScrapyDeprecationWarning, stacklevel=1)
+
+        # check if called from file_key with url as first argument
+        if not isinstance(request, scrapy.Request):
+            _warn()
+            url = request
+        else:
+            url = request.url
+
+        # detect if file_key() method has been overridden
+        if not hasattr(self.file_key, '_base'):
+            _warn()
+            return self.file_key(url)
+        # end of deprecation warning block
+        file_name = request.meta['title']
+        # change to request.url after deprecation
+        # media_ext = url.split('/')[-1]
+        return '%s' % file_name # + media_ext.replace(' ', '_')

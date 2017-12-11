@@ -45,3 +45,10 @@ class AsiaShootingItem(scrapy.Item):
     file_urls = scrapy.Field()
     title = scrapy.Field()
     files = scrapy.Field()
+
+
+class AllitebooksItem(scrapy.Item):
+    """docstring for AitebooksItem"""
+    file_urls = scrapy.Field()
+    title = scrapy.Field()
+    files = scrapy.Field()
