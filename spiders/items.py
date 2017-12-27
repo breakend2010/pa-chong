@@ -52,3 +52,9 @@ class AllitebooksItem(scrapy.Item):
     file_urls = scrapy.Field()
     title = scrapy.Field()
     files = scrapy.Field()
+
+
+class LaoziliaoSpidersItem(scrapy.Item):
+    title = scrapy.Field()
+    content = scrapy.Field()
+    link = scrapy.Field()
