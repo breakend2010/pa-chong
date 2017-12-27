@@ -50,7 +50,7 @@ class SpidersPipeline(object):
 class JsonWriterPipeline(object):
 
     def open_spider(self, spider):
-        self.file = open('issf_data.json', 'a')
+        self.file = open(spider.name + '.json', 'a')
 
     def close_spider(self, spider):
         self.file.close()
@@ -126,4 +126,4 @@ class AllitebooksPipeline(FilesPipeline):
         file_name = request.meta['title']
         # change to request.url after deprecation
         # media_ext = url.split('/')[-1]
-        return '%s' % file_name # + media_ext.replace(' ', '_')
+        return '%s' % file_name  # + media_ext.replace(' ', '_')
